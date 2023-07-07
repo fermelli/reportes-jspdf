@@ -1,0 +1,46 @@
+{
+    "totalSettlement": -320,
+    "companyName": "Sin Fronteras",
+    "formCode": "travel_30-04-2023_20-30_bus-001",
+    "origin": "sucre",
+    "destiny": "yacuiba",
+    "travelDate": "30/04/2023",
+    "departureTime": "20:30",
+    "travelExpenses": {
+        "busEnrollment": "bus-001",
+        "expenses": {
+            "diesel": "500",
+            "laborUnion": "10",
+            "otherDescription": "Se compro jabon liquido alcohol",
+            "others": "15",
+            "toll": "15",
+            "viaticos": "150",
+            "washed": "60"
+        },
+        "totalExpenses": 750,
+        "tripMadeKey": "travel_30-04-2023_20-30_bus-001"
+    },
+    "travelIncome": {
+        "incomeTickets": [
+            {
+                "numTickets": 3,
+                "priceTicket": "55",
+                "totalPrice": 165
+            },
+            {
+                "numTickets": 2,
+                "priceTicket": "80",
+                "totalPrice": 160
+            },
+            {
+                "numTickets": 1,
+                "priceTicket": "100",
+                "totalPrice": 100
+            }
+        ],
+        "totalAmountDiscounts": 25,
+        "totalAmountIncome": 400,
+        "totalAmountTickets": 425
+    },
+    "identificationNumberDriver": ""
+}
