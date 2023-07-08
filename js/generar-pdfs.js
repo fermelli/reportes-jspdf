@@ -27,25 +27,25 @@ export const generarPlanillas = (datosPlanillas) => {
         }
     });
 
+    imprimirPaginacion(doc, config);
+
+    const dataStrinng = doc.output('datauristring');
+
+    return dataStrinng;
+};
+
+const imprimirPaginacion = (doc, config) => {
+    const { ancho, alto } = config;
     // Paginación
     const numeroPaginas = doc.getNumberOfPages();
 
     for (let n = 1; n <= numeroPaginas; n++) {
         doc.setPage(n);
         doc.setFontSize(7);
-        doc.text(
-            `Página ${n} de ${numeroPaginas}`,
-            config.ancho / 2,
-            config.alto - 8,
-            {
-                align: 'center',
-            }
-        );
+        doc.text(`Página ${n} de ${numeroPaginas}`, ancho / 2, alto - 8, {
+            align: 'center',
+        });
     }
-
-    const dataStrinng = doc.output('datauristring');
-
-    return dataStrinng;
 };
 
 const generarPlanilla = (doc, config, datos) => {
@@ -79,9 +79,7 @@ const generarPlanilla = (doc, config, datos) => {
         washed: lavado,
     } = detalleGastos.expenses;
     const { totalExpenses } = detalleGastos;
-    /**
-     * Cabecera del documento
-     */
+
     const docData = [
         (doc) => {
             y += 4;
