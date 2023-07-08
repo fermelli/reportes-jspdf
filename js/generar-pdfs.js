@@ -7,6 +7,7 @@ export const generarPlanillas = (datosPlanillas) => {
         alto: 279.4,
         margenDerecho: 4,
         margenIzquierdo: 4,
+        y: 0,
     };
     const doc = new jsPDF({
         orientation: 'portrait',
@@ -48,11 +49,46 @@ const imprimirPaginacion = (doc, config) => {
     }
 };
 
+const dataCabecera = (doc, config, inicioDerecha, puntoMedio) => {
+    const { margenIzquierdo } = config;
+
+    const dataCabecera = [
+        (doc) => {
+            config.y += 4;
+            doc.addImage(logo, 'PNG', margenIzquierdo, config.y, 20, 20);
+        },
+        (doc) => {
+            config.y += 8;
+            doc.setFont('helvetica', 'bold').setFontSize(16);
+            doc.text('FLOTA', puntoMedio, config.y);
+        },
+        (doc) => {
+            config.y += 6;
+            doc.text('"SIN FRONTERAS"', inicioDerecha, config.y, {
+                align: 'right',
+            });
+        },
+        (doc) => {
+            config.y += 4;
+            doc.setFontSize(8);
+            doc.text(
+                'Empresa de Transporte de Pasajeros',
+                inicioDerecha,
+                config.y,
+                {
+                    align: 'right',
+                }
+            );
+        },
+    ];
+
+    return dataCabecera;
+};
+
 const generarPlanilla = (doc, config, datos) => {
     const { ancho, margenDerecho, margenIzquierdo } = config;
     const puntoMedio = ancho / 2;
     const inicioDerecha = ancho - margenDerecho;
-    let y = 0;
     const {
         companyName: nombreEmpresa,
         formCode: codigo,
@@ -79,101 +115,88 @@ const generarPlanilla = (doc, config, datos) => {
         washed: lavado,
     } = detalleGastos.expenses;
     const { totalExpenses } = detalleGastos;
+    config.y = 0;
 
     const docData = [
+        ...dataCabecera(doc, config, inicioDerecha, puntoMedio),
         (doc) => {
-            y += 4;
-            doc.addImage(logo, 'PNG', margenIzquierdo, y, 20, 20);
-        },
-        (doc) => {
-            y += 8;
-            doc.setFont('helvetica', 'bold').setFontSize(16);
-            doc.text('FLOTA', puntoMedio, y);
-        },
-        (doc) => {
-            y += 6;
-            doc.text('"SIN FRONTERAS"', inicioDerecha, y, { align: 'right' });
-        },
-        (doc) => {
-            y += 4;
-            doc.setFontSize(8);
-            doc.text('Empresa de Transporte de Pasajeros', inicioDerecha, y, {
-                align: 'right',
-            });
-        },
-        (doc) => {
-            y += 12;
+            config.y += 12;
             doc.setFontSize(12);
-            doc.text('REPORTES', puntoMedio, y, { align: 'center' });
+            doc.text('REPORTES', puntoMedio, config.y, { align: 'center' });
         },
         (doc) => {
-            y += 8;
+            config.y += 8;
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bold').text(
                 `Flota "${nombreEmpresa}"`.toUpperCase(),
                 puntoMedio,
-                y,
+                config.y,
                 {
                     align: 'center',
                 }
             );
         },
         (doc) => {
-            y += 4;
-            doc.text('PLANILLA DE LIQUIDACIÓN', puntoMedio, y, {
+            config.y += 4;
+            doc.text('PLANILLA DE LIQUIDACIÓN', puntoMedio, config.y, {
                 align: 'center',
             });
         },
         (doc) => {
-            y += 8;
+            config.y += 8;
             doc.setFontSize(8);
             doc.setFont('helvetica', 'bold').text(
                 'Código:',
                 margenIzquierdo,
-                y
+                config.y
             );
-            doc.setFont('helvetica', 'normal').text(codigo, 16, y);
+            doc.setFont('helvetica', 'normal').text(codigo, 16, config.y);
         },
         (doc) => {
-            y += 4;
+            config.y += 4;
             doc.setFont('helvetica', 'bold').text(
                 'Origen:',
                 margenIzquierdo,
-                y
+                config.y
             );
             doc.setFont('helvetica', 'normal').text(
                 origen.toUpperCase(),
                 16,
-                y
+                config.y
             );
-            doc.setFont('helvetica', 'bold').text('Destino:', 40, y);
+            doc.setFont('helvetica', 'bold').text('Destino:', 40, config.y);
             doc.setFont('helvetica', 'normal').text(
                 destino.toUpperCase(),
                 53,
-                y
+                config.y
             );
         },
         (doc) => {
-            y += 4;
-            doc.setLineWidth(0.2).line(margenIzquierdo, y, inicioDerecha, y);
+            config.y += 4;
+            doc.setLineWidth(0.2).line(
+                margenIzquierdo,
+                config.y,
+                inicioDerecha,
+                config.y
+            );
         },
         (doc) => {
             /**
              * inicia Detalle de pasajes
              */
-            y += 8;
+            config.y += 8;
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(9);
-            doc.text('INGRESOS', puntoMedio, y, { align: 'center' });
+            doc.text('INGRESOS', puntoMedio, config.y, { align: 'center' });
         },
         (doc) => {
             // Cabecera del detalle de pasajes
-            y += 8;
+            config.y += 8;
             doc.setFontSize(8);
-            doc.text('Cant.', 11, y, { align: 'right' });
-            doc.text('Detalle', 16, y);
-            doc.text('P. Unitario Bs.-', 58, y, { align: 'right' });
-            doc.text('Total Bs.-', inicioDerecha, y, { align: 'right' });
+            doc.text('Cant.', 11, config.y, { align: 'right' });
+            doc.text('Detalle', 16, config.y);
+            doc.text('P. Unitario Bs.-', 58, config.y, { align: 'right' });
+            doc.text('Total Bs.-', inicioDerecha, config.y, { align: 'right' });
         },
         (doc) => {
             // Cuerpo del detalle de pasajes
@@ -181,48 +204,52 @@ const generarPlanilla = (doc, config, datos) => {
             doc.setFont('helvetica', 'normal');
 
             boletos.forEach((boleto) => {
-                if (y >= doc.internal.pageSize.height - 20) {
+                if (config.y >= doc.internal.pageSize.height - 20) {
                     doc.addPage();
-                    y = 8;
+                    config.y = 8;
                 }
 
-                y += 4;
+                config.y += 4;
 
                 const { numTickets, priceTicket, totalPrice } = boleto;
                 const precio = Number(priceTicket);
                 const subtotal = Number(totalPrice);
 
                 doc.setFontSize(8);
-                doc.text(numTickets.toString(), 11, y, { align: 'right' });
-                doc.text('Pasaje', 16, y);
-                doc.text(precio.toFixed(2), 58, y, { align: 'right' });
-                doc.text(subtotal.toFixed(2), inicioDerecha, y, {
+                doc.text(numTickets.toString(), 11, config.y, {
+                    align: 'right',
+                });
+                doc.text('Pasaje', 16, config.y);
+                doc.text(precio.toFixed(2), 58, config.y, { align: 'right' });
+                doc.text(subtotal.toFixed(2), inicioDerecha, config.y, {
                     align: 'right',
                 });
             });
         },
         (doc) => {
             // Pie del detalle de pasajes
-            y += 4;
-            doc.line(margenIzquierdo, y, inicioDerecha, y);
+            config.y += 4;
+            doc.line(margenIzquierdo, config.y, inicioDerecha, config.y);
         },
         (doc) => {
-            y += 4;
+            config.y += 4;
             doc.setFont('helvetica', 'bold');
-            doc.text('TOTAL PASAJES Bs.-', 58, y, { align: 'right' });
-            doc.text(total.toFixed(2), inicioDerecha, y, { align: 'right' });
-        },
-        (doc) => {
-            y += 4;
-            doc.text('TOTAL DESCUENTOS Bs.-', 58, y, { align: 'right' });
-            doc.text(totalDescuentos.toFixed(2), inicioDerecha, y, {
+            doc.text('TOTAL PASAJES Bs.-', 58, config.y, { align: 'right' });
+            doc.text(total.toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
         },
         (doc) => {
-            y += 4;
-            doc.text('TOTAL INGRESOS Bs.-', 58, y, { align: 'right' });
-            doc.text(totalIngresos.toFixed(2), inicioDerecha, y, {
+            config.y += 4;
+            doc.text('TOTAL DESCUENTOS Bs.-', 58, config.y, { align: 'right' });
+            doc.text(totalDescuentos.toFixed(2), inicioDerecha, config.y, {
+                align: 'right',
+            });
+        },
+        (doc) => {
+            config.y += 4;
+            doc.text('TOTAL INGRESOS Bs.-', 58, config.y, { align: 'right' });
+            doc.text(totalIngresos.toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
 
@@ -234,79 +261,79 @@ const generarPlanilla = (doc, config, datos) => {
             /**
              * Inicia Detalle de gastos
              */
-            y += 8;
+            config.y += 8;
             doc.setFontSize(9);
-            doc.text('EGRESOS', puntoMedio, y, { align: 'center' });
+            doc.text('EGRESOS', puntoMedio, config.y, { align: 'center' });
         },
         (doc) => {
             // Cabecera del detalle de gastos
-            y += 8;
+            config.y += 8;
             doc.setFontSize(8);
-            doc.text('Detalle', 16, y);
-            doc.text('Monto Bs.-', inicioDerecha, y, { align: 'right' });
+            doc.text('Detalle', 16, config.y);
+            doc.text('Monto Bs.-', inicioDerecha, config.y, { align: 'right' });
         },
         (doc) => {
             // Cuerpo del detalle de gastos
-            y += 4;
+            config.y += 4;
             doc.setFont('helvetica', 'normal');
-            doc.text('Diesel', 16, y);
-            doc.text(Number(diesel).toFixed(2), inicioDerecha, y, {
+            doc.text('Diesel', 16, config.y);
+            doc.text(Number(diesel).toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
         },
         (doc) => {
-            y += 4;
-            doc.text('Peaje', 16, y);
-            doc.text(Number(peaje).toFixed(2), inicioDerecha, y, {
+            config.y += 4;
+            doc.text('Peaje', 16, config.y);
+            doc.text(Number(peaje).toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
         },
         (doc) => {
-            y += 4;
-            doc.text('Viáticos', 16, y);
-            doc.text(Number(viaticos).toFixed(2), inicioDerecha, y, {
+            config.y += 4;
+            doc.text('Viáticos', 16, config.y);
+            doc.text(Number(viaticos).toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
         },
         (doc) => {
-            y += 4;
-            doc.text('Lavado', 16, y);
-            doc.text(Number(lavado).toFixed(2), inicioDerecha, y, {
+            config.y += 4;
+            doc.text('Lavado', 16, config.y);
+            doc.text(Number(lavado).toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
         },
         (doc) => {
-            y += 4;
-            doc.text('Sindicato', 16, y);
-            doc.text(Number(sindicato).toFixed(2), inicioDerecha, y, {
+            config.y += 4;
+            doc.text('Sindicato', 16, config.y);
+            doc.text(Number(sindicato).toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
         },
         (doc) => {
-            y += 4;
-            doc.text('Otros *', 16, y);
-            doc.text(Number(otros).toFixed(2), inicioDerecha, y, {
+            config.y += 4;
+            doc.text('Otros *', 16, config.y);
+            doc.text(Number(otros).toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
         },
         (doc) => {
             if (descripcionOtros) {
-                y += 4;
+                config.y += 4;
                 doc.setFontSize(7);
-                doc.text(`* ${descripcionOtros}`, margenIzquierdo, y);
+                doc.text(`* ${descripcionOtros}`, margenIzquierdo, config.y);
                 doc.setFontSize(8);
             }
         },
         (doc) => {
             // Pie del detalle de gastos
-            y += 4;
-            doc.line(margenIzquierdo, y, inicioDerecha, y);
+            config.y += 4;
+            doc.line(margenIzquierdo, config.y, inicioDerecha, config.y);
         },
         (doc) => {
-            y += 4;
+            config.y += 4;
             doc.setFont('helvetica', 'bold');
-            doc.text('TOTAL EGRESOS Bs.-', 58, y, { align: 'right' });
-            doc.text(totalExpenses.toFixed(2), inicioDerecha, y, {
+            doc.text('TOTAL EGRESOS Bs.-', 58, config.y, { align: 'right' });
+            doc.text(totalExpenses.toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
 
@@ -315,43 +342,45 @@ const generarPlanilla = (doc, config, datos) => {
              */
         },
         (doc) => {
-            y += 8;
+            config.y += 8;
             doc.setFontSize(10);
-            doc.text('LIQUIDACIÓN Bs.-', 58, y, { align: 'right' });
-            doc.text(totalLiquidacion.toFixed(2), inicioDerecha, y, {
+            doc.text('LIQUIDACIÓN Bs.-', 58, config.y, { align: 'right' });
+            doc.text(totalLiquidacion.toFixed(2), inicioDerecha, config.y, {
                 align: 'right',
             });
         },
         (doc) => {
-            y += 8;
+            config.y += 8;
             doc.setFontSize(8).setFont('helvetica', 'normal');
             doc.text(
                 `Lugar y Fecha: ${origen.toUpperCase()} ${fechaViaje}`,
                 puntoMedio,
-                y,
+                config.y,
                 { align: 'center' }
             );
         },
         (doc) => {
             // Firma del propietario
-            y += 20;
+            config.y += 20;
             doc.setLineDashPattern([1, 1]);
-            doc.line(16, y, 64, y);
+            doc.line(16, config.y, 64, config.y);
         },
         (doc) => {
-            y += 4;
-            doc.text('Recibí Conforme', puntoMedio, y, { align: 'center' });
+            config.y += 4;
+            doc.text('Recibí Conforme', puntoMedio, config.y, {
+                align: 'center',
+            });
         },
         (doc) => {
-            y += 4;
-            doc.text('PROPIETARIO', puntoMedio, y, { align: 'center' });
+            config.y += 4;
+            doc.text('PROPIETARIO', puntoMedio, config.y, { align: 'center' });
         },
     ];
 
     docData.forEach((data) => {
-        if (y >= doc.internal.pageSize.height - 20) {
+        if (config.y >= doc.internal.pageSize.height - 20) {
             doc.addPage();
-            y = 12;
+            config.y = 12;
         }
 
         data(doc);
