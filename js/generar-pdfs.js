@@ -88,12 +88,23 @@ const generarPlanilla = (doc, config, datos) => {
             doc.addImage(logo, 'PNG', margenIzquierdo, y, 20, 20);
         },
         (doc) => {
-            y += 16;
+            y += 8;
             doc.setFont('helvetica', 'bold').setFontSize(16);
-            doc.text('SIN FRONTERAS', inicioDerecha, y, { align: 'right' });
+            doc.text('FLOTA', puntoMedio, y);
         },
         (doc) => {
-            y += 8;
+            y += 6;
+            doc.text('"SIN FRONTERAS"', inicioDerecha, y, { align: 'right' });
+        },
+        (doc) => {
+            y += 4;
+            doc.setFontSize(8);
+            doc.text('Empresa de Transporte de Pasajeros', inicioDerecha, y, {
+                align: 'right',
+            });
+        },
+        (doc) => {
+            y += 12;
             doc.setFontSize(12);
             doc.text('REPORTES', puntoMedio, y, { align: 'center' });
         },
