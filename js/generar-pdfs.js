@@ -1,20 +1,58 @@
 import { jsPDF } from 'jspdf';
 import logo from './../LogoSF2.png';
 
-export const generarPlanilla = (datos) => {
-    const ancho = 80;
-    const alto = 279.4;
-    const puntoMedio = ancho / 2;
-    const margenDerecho = 4;
-    const margenIzquierdo = 4;
-    const inicioDerecha = ancho - margenDerecho;
-    let y = 0;
+export const generarPlanillas = (datosPlanillas) => {
+    const config = {
+        ancho: 80,
+        alto: 279.4,
+        margenDerecho: 4,
+        margenIzquierdo: 4,
+    };
     const doc = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: [ancho, alto],
+        format: [config.ancho, config.alto],
         autoPaging: true,
     });
+    doc.setProperties({
+        title: 'Reporte de Planilla de Liquidación',
+        subject: 'Planilla de Liquidación',
+    });
+
+    datosPlanillas.forEach((datos, index) => {
+        generarPlanilla(doc, config, datos);
+
+        if (index < datosPlanillas.length - 1) {
+            doc.addPage();
+        }
+    });
+
+    // Paginación
+    const numeroPaginas = doc.getNumberOfPages();
+
+    for (let n = 1; n <= numeroPaginas; n++) {
+        doc.setPage(n);
+        doc.setFontSize(7);
+        doc.text(
+            `Página ${n} de ${numeroPaginas}`,
+            config.ancho / 2,
+            config.alto - 8,
+            {
+                align: 'center',
+            }
+        );
+    }
+
+    const dataStrinng = doc.output('datauristring');
+
+    return dataStrinng;
+};
+
+const generarPlanilla = (doc, config, datos) => {
+    const { ancho, margenDerecho, margenIzquierdo } = config;
+    const puntoMedio = ancho / 2;
+    const inicioDerecha = ancho - margenDerecho;
+    let y = 0;
     const {
         companyName: nombreEmpresa,
         formCode: codigo,
@@ -41,13 +79,6 @@ export const generarPlanilla = (datos) => {
         washed: lavado,
     } = detalleGastos.expenses;
     const { totalExpenses } = detalleGastos;
-
-    doc.setProperties({
-        title: 'Reporte de Planilla de Liquidación',
-        subject: 'Planilla de Liquidación',
-        author: nombreEmpresa,
-    });
-
     /**
      * Cabecera del documento
      */
@@ -316,18 +347,4 @@ export const generarPlanilla = (datos) => {
 
         data(doc);
     });
-
-    const numeroPaginas = doc.getNumberOfPages();
-
-    for (let n = 1; n <= numeroPaginas; n++) {
-        doc.setPage(n);
-        doc.setFontSize(7);
-        doc.text(`Página ${n} de ${numeroPaginas}`, puntoMedio, alto - 8, {
-            align: 'center',
-        });
-    }
-
-    const dataStrinng = doc.output('datauristring');
-
-    return dataStrinng;
 };
