@@ -32,7 +32,7 @@ button {
     line-height: 1.5;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
-    margin: 8px 0;
+    margin: 8px 0 0 16px;
 }
 
 button:hover {
