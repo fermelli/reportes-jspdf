@@ -35,6 +35,41 @@ export const generarPlanillas = (datosPlanillas) => {
     return dataStrinng;
 };
 
+export const generarPlanillasPasajes = (datosPlanillasPasajes) => {
+    const config = {
+        ancho: 80,
+        alto: 279.4,
+        margenDerecho: 4,
+        margenIzquierdo: 4,
+        y: 0,
+    };
+    const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [config.ancho, config.alto],
+        autoPaging: true,
+    });
+
+    doc.setProperties({
+        title: 'Planilla de Pasajes',
+        subject: 'Planilla de Pasajes',
+    });
+
+    datosPlanillasPasajes.forEach((datos, index) => {
+        generarPlanillaPasajes(doc, config, datos);
+
+        if (index < datosPlanillasPasajes.length - 1) {
+            doc.addPage();
+        }
+    });
+
+    imprimirPaginacion(doc, config);
+
+    const dataStrinng = doc.output('datauristring');
+
+    return dataStrinng;
+};
+
 const imprimirPaginacion = (doc, config) => {
     const { ancho, alto } = config;
     // Paginación
@@ -385,4 +420,244 @@ const generarPlanilla = (doc, config, datos) => {
 
         data(doc);
     });
+};
+
+const generarPlanillaPasajes = (doc, config, datos) => {
+    const { ancho, margenDerecho, margenIzquierdo } = config;
+    const puntoMedio = ancho / 2;
+    const inicioDerecha = ancho - margenDerecho;
+    const pasajes = datos;
+
+    config.y = 0;
+
+    const docData = [
+        ...dataCabecera(doc, config, inicioDerecha, puntoMedio),
+        (doc) => {
+            config.y += 12;
+            doc.setFontSize(12);
+            doc.text('PASAJES', puntoMedio, config.y, { align: 'center' });
+        },
+        (doc) => {
+            pasajes.forEach((pasaje, indice) => {
+                config.y += 4;
+                doc.line(0, config.y, ancho, config.y);
+
+                config.y += 4;
+                doc.addImage(logo, 'PNG', 10, config.y, 14, 14);
+
+                doc.setFont('helvetica', 'bold')
+                    .setFontSize(10)
+                    .text('SIN FRONTERAS', puntoMedio / 2, config.y + 20, {
+                        align: 'center',
+                    });
+
+                const margen = 15;
+
+                doc.setFontSize(7);
+                doc.setFont('helvetica', 'bold').text(
+                    'Sucursal:',
+                    puntoMedio + margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                doc.setFont('helvetica', 'normal').text(
+                    pasaje.branchNumber,
+                    puntoMedio + margen + 2,
+                    config.y
+                );
+
+                config.y += 4;
+                doc.setFont('helvetica', 'bold').text(
+                    'Ticket:',
+                    puntoMedio + margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                imprimirCadenaLarga(
+                    doc,
+                    config,
+                    pasaje.ticketNumber,
+                    puntoMedio + margen,
+                    15
+                );
+
+                config.y += 4;
+                doc.setFont('helvetica', 'bold').text(
+                    'Emitido por:',
+                    puntoMedio + margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                imprimirCadenaLarga(
+                    doc,
+                    config,
+                    pasaje.issuingUser,
+                    puntoMedio + margen,
+                    15
+                );
+
+                config.y += 4;
+                doc.setFont('helvetica', 'bold').text(
+                    'Teléfono:',
+                    puntoMedio + margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                doc.setFont('helvetica', 'normal').text(
+                    pasaje.branchPhone,
+                    puntoMedio + margen + 2,
+                    config.y
+                );
+
+                const origen = pasaje.origin.toUpperCase();
+                const destino = pasaje.destiny.toUpperCase();
+
+                config.y += 8;
+                doc.setFont('helvetica', 'bold')
+                    .setFontSize(10)
+                    .text(`${origen} - ${destino}`, puntoMedio, config.y, {
+                        align: 'center',
+                    });
+
+                config.y += 8;
+                doc.setFontSize(7);
+
+                doc.setFont('helvetica', 'bold').text(
+                    'Fecha:',
+                    margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                doc.setFont('helvetica', 'normal').text(
+                    pasaje.travelDate,
+                    margen + 2,
+                    config.y
+                );
+
+                doc.setFont('helvetica', 'bold').text(
+                    'Asiento:',
+                    puntoMedio + margen,
+                    config.y,
+                    { align: 'right' }
+                );
+
+                config.y += 4;
+                doc.setFont('helvetica', 'bold').text(
+                    'Hora:',
+                    margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                doc.setFont('helvetica', 'normal').text(
+                    pasaje.departureTime,
+                    margen + 2,
+                    config.y
+                );
+
+                config.y += 4;
+                doc.setFont('helvetica', 'bold')
+                    .setFontSize(30)
+                    .text(pasaje.seatId, puntoMedio + margen + 2, config.y);
+
+                doc.setFontSize(7);
+                doc.setFont('helvetica', 'bold').text(
+                    'Carril:',
+                    margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                doc.setFont('helvetica', 'normal').text(
+                    pasaje.lane,
+                    margen + 2,
+                    config.y
+                );
+
+                config.y += 4;
+                doc.setFont('helvetica', 'bold').text(
+                    'Pasajero:',
+                    margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                imprimirCadenaLarga(
+                    doc,
+                    config,
+                    pasaje.passengerFullName,
+                    margen,
+                    15
+                );
+
+                doc.setFont('helvetica', 'bold').text(
+                    pasaje.typeOfSeat,
+                    puntoMedio + 20,
+                    config.y,
+                    { align: 'center' }
+                );
+
+                config.y += 4;
+                doc.setFont('helvetica', 'bold').text(
+                    'C.I.:',
+                    margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                doc.setFont('helvetica', 'normal').text(
+                    pasaje.identificationNumber,
+                    margen + 2,
+                    config.y
+                );
+
+                doc.setFont('helvetica', 'bold').text(
+                    'Precio:',
+                    puntoMedio + margen,
+                    config.y,
+                    { align: 'right' }
+                );
+                doc.setFont('helvetica', 'normal').text(
+                    `${pasaje.seatPrice.toFixed(2)} Bs.-`,
+                    puntoMedio + margen + 2,
+                    config.y
+                );
+
+                config.y += 8;
+                doc.setFont('helvetica', 'bold').text(
+                    pasaje.legend,
+                    puntoMedio,
+                    config.y,
+                    { align: 'center' }
+                );
+
+                config.y += 4;
+                doc.line(0, config.y, ancho, config.y);
+
+                if ((indice + 1) % 3 === 0) {
+                    doc.addPage();
+
+                    config.y = 12;
+                }
+            });
+        },
+    ];
+
+    docData.forEach((data) => {
+        if (config.y >= doc.internal.pageSize.height - 20) {
+            doc.addPage();
+            config.y = 12;
+        }
+
+        data(doc);
+    });
+};
+
+const imprimirCadenaLarga = (doc, config, cadena, x, tamanoMaximoCadena) => {
+    if (cadena.length > tamanoMaximoCadena) {
+        const parte1 = cadena.substring(0, tamanoMaximoCadena);
+        const parte2 = cadena.substring(tamanoMaximoCadena);
+        doc.setFont('helvetica', 'normal').text(parte1, x + 2, config.y);
+
+        config.y += 4;
+        doc.setFont('helvetica', 'normal').text(parte2, x + 2, config.y);
+    } else {
+        doc.setFont('helvetica', 'normal').text(cadena, x + 2, config.y);
+    }
 };
