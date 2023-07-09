@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import logo from './../LogoSF2.png';
+import logo from './../LogoSF2_medium.png';
 
 export const generarPlanillas = (datosPlanillas) => {
     const config = {
