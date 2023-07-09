@@ -8,6 +8,9 @@ import {
 
 document.querySelector('#app').innerHTML = /*html*/ `
     <div>
+        <button id="js-generar-planillas">Generar Planillas</button>
+        <button id="js-generar-planillas-pasajes">Generar Planillas Pasajes</button>
+
         <embed
             id="embed"
             src=""
@@ -18,8 +21,16 @@ document.querySelector('#app').innerHTML = /*html*/ `
     </div>
 `;
 
-document.querySelector('#embed').src = generarPlanillasPasajes([
-    planillaPasajesData,
-    planillaPasajesData,
-    planillaPasajesData,
-]);
+const $embed = document.querySelector('#embed');
+
+document.querySelector('#js-generar-planillas').onclick = () => {
+    $embed.src = generarPlanillas([planillaData, planillaData, planillaData]);
+};
+
+document.querySelector('#js-generar-planillas-pasajes').onclick = () => {
+    $embed.src = generarPlanillasPasajes([
+        planillaPasajesData,
+        planillaPasajesData,
+        planillaPasajesData,
+    ]);
+};

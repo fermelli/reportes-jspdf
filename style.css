@@ -13,3 +13,28 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
 }
+
+*,
+*::before,
+* ::after {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+button {
+    background-color: #1b52e9;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin: 8px 0;
+}
+
+button:hover {
+    background-color: #1a47cc;
+}
