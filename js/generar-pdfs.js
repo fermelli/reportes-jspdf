@@ -150,6 +150,7 @@ const generarPlanilla = (doc, config, datos) => {
         washed: lavado,
     } = detalleGastos.expenses;
     const { totalExpenses } = detalleGastos;
+
     config.y = 0;
 
     const docData = [
@@ -158,6 +159,10 @@ const generarPlanilla = (doc, config, datos) => {
             config.y += 12;
             doc.setFontSize(12);
             doc.text('REPORTES', puntoMedio, config.y, { align: 'center' });
+        },
+        (doc) => {
+            config.y += 4;
+            doc.setLineWidth(0.8).line(0, config.y, ancho, config.y);
         },
         (doc) => {
             config.y += 8;
@@ -410,6 +415,12 @@ const generarPlanilla = (doc, config, datos) => {
             config.y += 4;
             doc.text('PROPIETARIO', puntoMedio, config.y, { align: 'center' });
         },
+        (doc) => {
+            config.y += 4;
+            doc.setLineDashPattern([0, 0])
+                .setLineWidth(0.8)
+                .line(0, config.y, ancho, config.y);
+        },
     ];
 
     docData.forEach((data) => {
@@ -440,7 +451,7 @@ const generarPlanillaPasajes = (doc, config, datos) => {
         (doc) => {
             pasajes.forEach((pasaje, indice) => {
                 config.y += 4;
-                doc.line(0, config.y, ancho, config.y);
+                doc.setLineWidth(0.5).line(0, config.y, ancho, config.y);
 
                 config.y += 4;
                 doc.addImage(logo, 'PNG', 10, config.y, 14, 14);
@@ -456,9 +467,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
                 doc.setFontSize(7);
                 doc.setFont('helvetica', 'bold').text(
                     'Sucursal:',
-                    puntoMedio + margen,
-                    config.y,
-                    { align: 'right' }
+                    puntoMedio,
+                    config.y
                 );
                 doc.setFont('helvetica', 'normal').text(
                     pasaje.branchNumber,
@@ -469,9 +479,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
                 config.y += 4;
                 doc.setFont('helvetica', 'bold').text(
                     'Ticket:',
-                    puntoMedio + margen,
-                    config.y,
-                    { align: 'right' }
+                    puntoMedio,
+                    config.y
                 );
                 imprimirCadenaLarga(
                     doc,
@@ -484,9 +493,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
                 config.y += 4;
                 doc.setFont('helvetica', 'bold').text(
                     'Emitido por:',
-                    puntoMedio + margen,
-                    config.y,
-                    { align: 'right' }
+                    puntoMedio,
+                    config.y
                 );
                 imprimirCadenaLarga(
                     doc,
@@ -499,9 +507,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
                 config.y += 4;
                 doc.setFont('helvetica', 'bold').text(
                     'Teléfono:',
-                    puntoMedio + margen,
-                    config.y,
-                    { align: 'right' }
+                    puntoMedio,
+                    config.y
                 );
                 doc.setFont('helvetica', 'normal').text(
                     pasaje.branchPhone,
@@ -524,9 +531,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
 
                 doc.setFont('helvetica', 'bold').text(
                     'Fecha:',
-                    margen,
-                    config.y,
-                    { align: 'right' }
+                    margenIzquierdo,
+                    config.y
                 );
                 doc.setFont('helvetica', 'normal').text(
                     pasaje.travelDate,
@@ -536,17 +542,15 @@ const generarPlanillaPasajes = (doc, config, datos) => {
 
                 doc.setFont('helvetica', 'bold').text(
                     'Asiento:',
-                    puntoMedio + margen,
-                    config.y,
-                    { align: 'right' }
+                    puntoMedio,
+                    config.y
                 );
 
                 config.y += 4;
                 doc.setFont('helvetica', 'bold').text(
                     'Hora:',
-                    margen,
-                    config.y,
-                    { align: 'right' }
+                    margenIzquierdo,
+                    config.y
                 );
                 doc.setFont('helvetica', 'normal').text(
                     pasaje.departureTime,
@@ -562,9 +566,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
                 doc.setFontSize(7);
                 doc.setFont('helvetica', 'bold').text(
                     'Carril:',
-                    margen,
-                    config.y,
-                    { align: 'right' }
+                    margenIzquierdo,
+                    config.y
                 );
                 doc.setFont('helvetica', 'normal').text(
                     pasaje.lane,
@@ -575,9 +578,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
                 config.y += 4;
                 doc.setFont('helvetica', 'bold').text(
                     'Pasajero:',
-                    margen,
-                    config.y,
-                    { align: 'right' }
+                    margenIzquierdo,
+                    config.y
                 );
                 imprimirCadenaLarga(
                     doc,
@@ -597,9 +599,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
                 config.y += 4;
                 doc.setFont('helvetica', 'bold').text(
                     'C.I.:',
-                    margen,
-                    config.y,
-                    { align: 'right' }
+                    margenIzquierdo,
+                    config.y
                 );
                 doc.setFont('helvetica', 'normal').text(
                     pasaje.identificationNumber,
@@ -609,9 +610,8 @@ const generarPlanillaPasajes = (doc, config, datos) => {
 
                 doc.setFont('helvetica', 'bold').text(
                     'Precio:',
-                    puntoMedio + margen,
-                    config.y,
-                    { align: 'right' }
+                    puntoMedio,
+                    config.y
                 );
                 doc.setFont('helvetica', 'normal').text(
                     `${pasaje.seatPrice.toFixed(2)} Bs.-`,
