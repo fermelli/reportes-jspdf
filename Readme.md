@@ -8,7 +8,12 @@ Descargar el proyecto desde el repositorio de gitHub:
 git clone https://github.com/fermelli/reportes-jspdf.git
 ```
 
-Luego instalar las dependencias:
+### Dependencias
+
+-   [jsPDF](https://github.com/parallax/jsPDF) - Generación de PDF JavaScript del lado del cliente.
+-   [jsPDF-AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable) - Complemento de `jsPDF` para generar tablas PDF con JavaScript.
+
+Instalar las dependencias:
 
 ```bash
 npm install
