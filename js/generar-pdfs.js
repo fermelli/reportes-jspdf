@@ -691,11 +691,11 @@ export const generarManifiestoPasajeros = (datosManifiesto) => {
         numberOfPassengers,
     } = headerData;
     const columnas = [
-        { title: 'Código Pasaje', dataKey: 'ticketNumber' },
-        { title: 'Nombre Completo', dataKey: 'passengerFullName' },
-        { title: 'Nro. Documento', dataKey: 'identificationNumber' },
-        { title: 'Tipo Documento', dataKey: 'typeOfDocument' },
-        { title: 'Nro. Asiento', dataKey: 'seatId' },
+        { header: 'Código Pasaje', dataKey: 'ticketNumber' },
+        { header: 'Nombre Completo', dataKey: 'passengerFullName' },
+        { header: 'Nro. Documento', dataKey: 'identificationNumber' },
+        { header: 'Tipo Documento', dataKey: 'typeOfDocument' },
+        { header: 'Nro. Asiento', dataKey: 'seatId' },
     ];
 
     doc.setProperties({
@@ -770,7 +770,7 @@ export const generarManifiestoPasajeros = (datosManifiesto) => {
         (doc) => {
             config.y += 4;
             autoTable(doc, {
-                columnas,
+                columns: columnas,
                 body: dataTable,
                 ...obtenerConfiguracionesAutoTable(
                     config.y,
@@ -882,11 +882,11 @@ export const generarListaUsuarios = (datosUsuarios) => {
     const puntoMedio = ancho / 2;
     const { usersData } = datosUsuarios;
     const columnas = [
-        { title: 'Carnet Identidad', dataKey: 'identificationNumber' },
-        { title: 'Nombre Completo', dataKey: 'userFullName' },
-        { title: 'Cargo', dataKey: 'charge' },
-        { title: 'Celular', dataKey: 'mobile' },
-        { title: 'Estado', dataKey: 'status' },
+        { header: 'Carnet Identidad', dataKey: 'identificationNumber' },
+        { header: 'Nombre Completo', dataKey: 'userFullName' },
+        { header: 'Cargo', dataKey: 'charge' },
+        { header: 'Celular', dataKey: 'mobile' },
+        { header: 'Estado', dataKey: 'status' },
     ];
 
     doc.setProperties({
@@ -945,7 +945,7 @@ export const generarListaUsuarios = (datosUsuarios) => {
             (doc) => {
                 config.y += 4;
                 autoTable(doc, {
-                    columnas,
+                    columns: columnas,
                     body: usersData,
                     ...obtenerConfiguracionesAutoTable(
                         config.y,
