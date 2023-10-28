@@ -863,3 +863,112 @@ const obtenerConfiguracionesAutoTable = (y, anchoTabla, margenIzquierdo) => {
         },
     };
 };
+
+export const generarListaUsuarios = (datosUsuarios) => {
+    const config = {
+        ancho: 215.9,
+        alto: 279.4,
+        margenDerecho: 12,
+        margenIzquierdo: 12,
+        y: 0,
+    };
+    const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [config.ancho, config.alto],
+        autoPaging: true,
+    });
+    const { ancho, margenDerecho, margenIzquierdo } = config;
+    const puntoMedio = ancho / 2;
+    const { usersData } = datosUsuarios;
+    const columnas = [
+        { title: 'Carnet Identidad', dataKey: 'identificationNumber' },
+        { title: 'Nombre Completo', dataKey: 'userFullName' },
+        { title: 'Cargo', dataKey: 'charge' },
+        { title: 'Celular', dataKey: 'mobile' },
+        { title: 'Estado', dataKey: 'status' },
+    ];
+
+    doc.setProperties({
+        title: 'Lista de Pasajeros',
+        subject: 'Lista de Pasajeros',
+    });
+
+    config.y = 0;
+
+    if (usersData.length === 0) {
+        doc.setFontSize(12);
+        doc.text('NO SE ENCONTRARON REGISTROS', puntoMedio, config.y, {
+            align: 'center',
+        });
+    } else {
+        const branchNumberOrCode =
+            usersData.length > 0 ? usersData[0].branchNumberOrCode : '';
+        const branchOfficeName =
+            usersData.length > 0 ? usersData[0].branchOfficeName : '';
+        const printDate = new Date().toLocaleDateString();
+
+        const docData = [
+            ...dataCabeceraTamanoCarta(doc, config, puntoMedio),
+            (doc) => {
+                config.y += 12;
+                doc.setFontSize(12);
+                doc.text('LISTA DE USUARIOS', puntoMedio, config.y, {
+                    align: 'center',
+                });
+            },
+            (doc) => {
+                config.y += 8;
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal').text(
+                    `CÓDIGO DE SUCURSAL: ${branchNumberOrCode}`,
+                    margenIzquierdo,
+                    config.y
+                );
+            },
+            (doc) => {
+                config.y += 4;
+                doc.text(
+                    `NOMBRE DE SUCURSAL: ${branchOfficeName}`,
+                    margenIzquierdo,
+                    config.y
+                );
+            },
+            (doc) => {
+                config.y += 4;
+                doc.text(
+                    `FECHA DE IMPRESIÓN: ${printDate}`,
+                    margenIzquierdo,
+                    config.y
+                );
+            },
+            (doc) => {
+                config.y += 4;
+                doc.autoTable(
+                    columnas,
+                    usersData,
+                    obtenerConfiguracionesAutoTable(
+                        config.y,
+                        ancho - margenIzquierdo - margenDerecho,
+                        margenIzquierdo
+                    )
+                );
+            },
+        ];
+
+        docData.forEach((data) => {
+            if (config.y >= doc.internal.pageSize.height - 20) {
+                doc.addPage();
+                config.y = 12;
+            }
+
+            data(doc);
+        });
+    }
+
+    imprimirPaginacion(doc, config);
+
+    const dataStrinng = doc.output('datauristring');
+
+    return dataStrinng;
+};

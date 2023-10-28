@@ -1,0 +1,292 @@
+{
+    "usersData": [
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000000",
+            "userFullName": "alcon ruben",
+            "charge": "dueño",
+            "mobile": 60069988,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "61000000",
+            "userFullName": "alcon rodrigues fabricio",
+            "charge": "adm-general",
+            "mobile": 60616061,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000000",
+            "userFullName": "Alcon Ruben",
+            "charge": "dueño",
+            "mobile": 60069988,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000001",
+            "userFullName": "García Marta",
+            "charge": "gerente",
+            "mobile": 60069989,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000002",
+            "userFullName": "López Andrés",
+            "charge": "supervisor",
+            "mobile": 60069990,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000003",
+            "userFullName": "Hernández Laura",
+            "charge": "empleado",
+            "mobile": 60069991,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000004",
+            "userFullName": "González Carlos",
+            "charge": "empleado",
+            "mobile": 60069992,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000005",
+            "userFullName": "Pérez Elena",
+            "charge": "empleado",
+            "mobile": 60069993,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000006",
+            "userFullName": "Martínez Juan",
+            "charge": "empleado",
+            "mobile": 60069994,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000007",
+            "userFullName": "López Carla",
+            "charge": "empleado",
+            "mobile": 60069995,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000008",
+            "userFullName": "García Pedro",
+            "charge": "empleado",
+            "mobile": 60069996,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000009",
+            "userFullName": "Martínez Luisa",
+            "charge": "empleado",
+            "mobile": 60069997,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000010",
+            "userFullName": "Sánchez Sofia",
+            "charge": "empleado",
+            "mobile": 60069998,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000011",
+            "userFullName": "Gómez Jorge",
+            "charge": "empleado",
+            "mobile": 60069999,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000012",
+            "userFullName": "López Ana",
+            "charge": "empleado",
+            "mobile": 60070000,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000013",
+            "userFullName": "Hernández Diego",
+            "charge": "empleado",
+            "mobile": 60070001,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000014",
+            "userFullName": "Pérez Carlos",
+            "charge": "empleado",
+            "mobile": 60070002,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000015",
+            "userFullName": "González Maria",
+            "charge": "empleado",
+            "mobile": 60070003,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000016",
+            "userFullName": "Martínez Pedro",
+            "charge": "empleado",
+            "mobile": 60070004,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000017",
+            "userFullName": "Santos Carla",
+            "charge": "empleado",
+            "mobile": 60070005,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000018",
+            "userFullName": "Rios Andrés",
+            "charge": "empleado",
+            "mobile": 60070006,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000019",
+            "userFullName": "Martínez Laura",
+            "charge": "empleado",
+            "mobile": 60070007,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000020",
+            "userFullName": "López Jorge",
+            "charge": "empleado",
+            "mobile": 60070008,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000021",
+            "userFullName": "Pérez Ana",
+            "charge": "empleado",
+            "mobile": 60070009,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000022",
+            "userFullName": "García Diego",
+            "charge": "empleado",
+            "mobile": 60070010,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000023",
+            "userFullName": "López Carlos",
+            "charge": "empleado",
+            "mobile": 60070011,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000024",
+            "userFullName": "Pérez Maria",
+            "charge": "empleado",
+            "mobile": 60070012,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000025",
+            "userFullName": "Martínez Pedro",
+            "charge": "empleado",
+            "mobile": 60070013,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000026",
+            "userFullName": "Santos Carla",
+            "charge": "empleado",
+            "mobile": 60070014,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000027",
+            "userFullName": "Rios Andrés",
+            "charge": "empleado",
+            "mobile": 60070015,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000028",
+            "userFullName": "Martínez Laura",
+            "charge": "empleado",
+            "mobile": 60070016,
+            "status": "activo"
+        },
+        {
+            "branchNumberOrCode": "code1",
+            "branchOfficeName": "sucursal 1",
+            "identificationNumber": "60000029",
+            "userFullName": "López Jorge",
+            "charge": "empleado",
+            "mobile": 60070017,
+            "status": "activo"
+        }
+    ]
+}
