@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 import logo from './../LogoSF2_medium.png';
 
 export const generarPlanillas = (datosPlanillas) => {
@@ -769,15 +769,15 @@ export const generarManifiestoPasajeros = (datosManifiesto) => {
         },
         (doc) => {
             config.y += 4;
-            doc.autoTable(
+            autoTable(doc, {
                 columnas,
-                dataTable,
-                obtenerConfiguracionesAutoTable(
+                body: dataTable,
+                ...obtenerConfiguracionesAutoTable(
                     config.y,
                     ancho - margenIzquierdo - margenDerecho,
                     margenIzquierdo
-                )
-            );
+                ),
+            });
         },
     ];
 
@@ -944,15 +944,15 @@ export const generarListaUsuarios = (datosUsuarios) => {
             },
             (doc) => {
                 config.y += 4;
-                doc.autoTable(
+                autoTable(doc, {
                     columnas,
-                    usersData,
-                    obtenerConfiguracionesAutoTable(
+                    body: usersData,
+                    ...obtenerConfiguracionesAutoTable(
                         config.y,
                         ancho - margenIzquierdo - margenDerecho,
                         margenIzquierdo
-                    )
-                );
+                    ),
+                });
             },
         ];
 
