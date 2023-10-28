@@ -1,7 +1,9 @@
 import './style.css';
 import planillaData from './data/planilla.data.json';
 import planillaPasajesData from './data/planilla-pasajes.data.json';
+import manifiestoPasajerosData from './data/manifiesto-pasajeros.data.json';
 import {
+    generarManifiestoPasajeros,
     generarPlanillas,
     generarPlanillasPasajes,
 } from './js/generar-pdfs.js';
@@ -10,6 +12,7 @@ document.querySelector('#app').innerHTML = /*html*/ `
     <div>
         <button id="js-generar-planillas">Generar Planillas</button>
         <button id="js-generar-planillas-pasajes">Generar Planillas Pasajes</button>
+        <button id="js-generar-manifiesto-pasajeros">Generar Manifiesto Pasajeros</button>
 
         <div class="container">
             <div id="js-spinner" class="spinner"></div>
@@ -49,6 +52,14 @@ document
                 planillaPasajesData,
                 planillaPasajesData,
             ]);
+        });
+    });
+
+document
+    .querySelector('#js-generar-manifiesto-pasajeros')
+    .addEventListener('click', () => {
+        eventoClick(() => {
+            return generarManifiestoPasajeros(manifiestoPasajerosData);
         });
     });
 

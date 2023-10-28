@@ -1,4 +1,5 @@
 import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 import logo from './../LogoSF2_medium.png';
 
 export const generarPlanillas = (datosPlanillas) => {
@@ -660,4 +661,205 @@ const imprimirCadenaLarga = (doc, config, cadena, x, tamanoMaximoCadena) => {
     } else {
         doc.setFont('helvetica', 'normal').text(cadena, x + 2, config.y);
     }
+};
+
+export const generarManifiestoPasajeros = (datosManifiesto) => {
+    const config = {
+        ancho: 215.9,
+        alto: 279.4,
+        margenDerecho: 12,
+        margenIzquierdo: 12,
+        y: 0,
+    };
+    const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [config.ancho, config.alto],
+        autoPaging: true,
+    });
+    const { ancho, margenDerecho, margenIzquierdo } = config;
+    const puntoMedio = ancho / 2;
+    const { headerData, dataTable } = datosManifiesto;
+    const {
+        tripMadeKey,
+        busEnrollment,
+        fullNameDriver,
+        origin,
+        destiny,
+        travelDate,
+        departureTime,
+        numberOfPassengers,
+    } = headerData;
+    const columnas = [
+        { title: 'Código Pasaje', dataKey: 'ticketNumber' },
+        { title: 'Nombre Completo', dataKey: 'passengerFullName' },
+        { title: 'Nro. Documento', dataKey: 'identificationNumber' },
+        { title: 'Tipo Documento', dataKey: 'typeOfDocument' },
+        { title: 'Nro. Asiento', dataKey: 'seatId' },
+    ];
+
+    doc.setProperties({
+        title: 'Manifiesto de Pasajeros',
+        subject: 'Manifiesto de Pasajeros',
+    });
+
+    config.y = 0;
+
+    const docData = [
+        ...dataCabeceraTamanoCarta(doc, config, puntoMedio),
+        (doc) => {
+            config.y += 12;
+            doc.setFontSize(12);
+            doc.text('MANIFIESTO DE PASAJEROS', puntoMedio, config.y, {
+                align: 'center',
+            });
+        },
+        (doc) => {
+            config.y += 8;
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal').text(
+                `CÓDIGO DE VIAJE: ${tripMadeKey}`,
+                margenIzquierdo,
+                config.y
+            );
+        },
+        (doc) => {
+            config.y += 4;
+            doc.text(`NRO. PLACA: ${busEnrollment}`, margenIzquierdo, config.y);
+        },
+        (doc) => {
+            config.y += 4;
+            doc.text(
+                `NOMBRE DEL CHOFER: ${fullNameDriver}`,
+                margenIzquierdo,
+                config.y
+            );
+        },
+        (doc) => {
+            config.y += 4;
+            doc.text(`ORIGEN: ${origin}`, margenIzquierdo, config.y);
+        },
+        (doc) => {
+            config.y += 4;
+            doc.text(`DESTINO: ${destiny}`, margenIzquierdo, config.y);
+        },
+        (doc) => {
+            config.y += 4;
+            doc.text(
+                `FECHA DE SALIDA: ${travelDate}`,
+                margenIzquierdo,
+                config.y
+            );
+        },
+        (doc) => {
+            config.y += 4;
+            doc.text(
+                `HORA DE SALIDA: ${departureTime}`,
+                margenIzquierdo,
+                config.y
+            );
+        },
+        (doc) => {
+            config.y += 4;
+            doc.text(
+                `NRO. DE PASAJEROS: ${numberOfPassengers}`,
+                margenIzquierdo,
+                config.y
+            );
+        },
+        (doc) => {
+            config.y += 4;
+            doc.autoTable(
+                columnas,
+                dataTable,
+                obtenerConfiguracionesAutoTable(
+                    config.y,
+                    ancho - margenIzquierdo - margenDerecho,
+                    margenIzquierdo
+                )
+            );
+        },
+    ];
+
+    docData.forEach((data) => {
+        if (config.y >= doc.internal.pageSize.height - 20) {
+            doc.addPage();
+            config.y = 12;
+        }
+
+        data(doc);
+    });
+
+    imprimirPaginacion(doc, config);
+
+    const dataStrinng = doc.output('datauristring');
+
+    return dataStrinng;
+};
+
+const dataCabeceraTamanoCarta = (doc, config, puntoMedio) => {
+    const tamanoLogo = 20;
+
+    const dataCabecera = [
+        (doc) => {
+            config.y += 4;
+            doc.addImage(
+                logo,
+                'PNG',
+                puntoMedio - 2 * tamanoLogo,
+                config.y,
+                tamanoLogo,
+                tamanoLogo
+            );
+        },
+        (doc) => {
+            config.y += 8;
+            doc.setFont('helvetica', 'bold').setFontSize(16);
+            doc.text('FLOTA', puntoMedio + tamanoLogo / 2, config.y, {
+                align: 'center',
+            });
+        },
+        (doc) => {
+            config.y += 6;
+            doc.text('"SIN FRONTERAS"', puntoMedio + tamanoLogo / 2, config.y, {
+                align: 'center',
+            });
+        },
+        (doc) => {
+            config.y += 4;
+            doc.setFontSize(8);
+            doc.text(
+                'Empresa de Transporte de Pasajeros',
+                puntoMedio + tamanoLogo / 2,
+                config.y,
+                {
+                    align: 'center',
+                }
+            );
+        },
+    ];
+
+    return dataCabecera;
+};
+
+const obtenerConfiguracionesAutoTable = (y, anchoTabla, margenIzquierdo) => {
+    return {
+        startY: y,
+        tableWidth: anchoTabla,
+        headStyles: {
+            fillColor: [255, 255, 255],
+            textColor: [0, 0, 0],
+        },
+        styles: {
+            lineColor: [0, 0, 0],
+            lineWidth: 0.25,
+            textColor: [0, 0, 0],
+            fontSize: 9,
+        },
+        margin: {
+            top: 12,
+            bottom: 12,
+            left: margenIzquierdo,
+        },
+    };
 };
